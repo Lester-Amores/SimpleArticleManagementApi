@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
 
 class Article extends Model
 {
@@ -25,17 +24,6 @@ class Article extends Model
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
     ];
-
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($article) {
-            if (empty($article->slug)) {
-                $article->slug = Str::slug($article->title);
-            }
-        });
-    }
 
 
     public function author(): BelongsTo
