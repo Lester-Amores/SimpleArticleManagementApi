@@ -19,14 +19,21 @@ class ArticleService
             ->with('author:id,name', 'categories:id,name,slug');
 
         if ($request->has('q') && !empty($request->q)) {
-            $query->where(function ($q) use ($request) {
-                $q->where('articles.title', 'like', "%{$request->q}%")
-                  ->orWhere('articles.content', 'like', "%{$request->q}%");
+            $searchTerm = $request->q;
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('articles.title', 'like', '%' . $searchTerm . '%')
+                  ->orWhere('articles.content', 'like', '%' . $searchTerm . '%');
             });
         }
 
+        $allowedSortColumns = ['id', 'title', 'created_at', 'updated_at'];
         $sortBy = $request->input('sortBy', 'created_at');
+        $sortBy = in_array($sortBy, $allowedSortColumns) ? $sortBy : 'created_at';
+        
+        $allowedSortOrders = ['asc', 'desc'];
         $sortOrder = $request->filled('sortOrder') ? $request->sortOrder : 'desc';
+        $sortOrder = in_array(strtolower($sortOrder), $allowedSortOrders) ? strtolower($sortOrder) : 'desc';
+        
         $query->orderBy('articles.' . $sortBy, $sortOrder);
 
         $perPage = $request->input('perPage', 10);
