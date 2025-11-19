@@ -13,13 +13,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // Enable session middleware for API routes to support session-based authentication
         $middleware->api(prepend: [
             \Illuminate\Session\Middleware\StartSession::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        // Handle unauthenticated exceptions for API routes - return JSON instead of redirecting
         $exceptions->render(function (AuthenticationException $e, \Illuminate\Http\Request $request) {
             if ($request->is('api/*') || $request->expectsJson()) {
                 return response()->json([

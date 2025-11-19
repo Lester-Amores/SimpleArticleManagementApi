@@ -7,9 +7,6 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class CategoryService
 {
-    /**
-     * Get category by slug with published articles
-     */
     public function getCategoryWithArticles(string $slug, int $perPage = 10): array
     {
         $category = Category::where('slug', $slug)->firstOrFail();

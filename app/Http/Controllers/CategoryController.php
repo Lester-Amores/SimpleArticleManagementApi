@@ -12,9 +12,6 @@ class CategoryController extends Controller
     ) {
     }
 
-    /**
-     * Get all published articles in a category by slug
-     */
     public function show(string $slug): JsonResponse
     {
         $data = $this->categoryService->getCategoryWithArticles($slug);

@@ -78,12 +78,10 @@ class ArticleSeeder extends Seeder
             $categoryIds = $articleData['category_ids'];
             unset($articleData['category_ids']);
 
-            // Generate slug from title
             $articleData['slug'] = Str::slug($articleData['title']);
 
             $article = Article::create($articleData);
             
-            // Filter out null category IDs (in case category doesn't exist)
             $validCategoryIds = array_filter($categoryIds);
             if (!empty($validCategoryIds)) {
                 $article->categories()->attach($validCategoryIds);

@@ -8,9 +8,6 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthService
 {
-    /**
-     * Register a new user
-     */
     public function register(array $data): User
     {
         return User::create([
@@ -20,9 +17,6 @@ class AuthService
         ]);
     }
 
-    /**
-     * Attempt to login user
-     */
     public function login(array $credentials): ?User
     {
         if (Auth::attempt($credentials)) {
