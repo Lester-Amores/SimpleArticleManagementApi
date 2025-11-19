@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class ArticleSeeder extends Seeder
 {
@@ -76,6 +77,9 @@ class ArticleSeeder extends Seeder
         foreach ($articles as $articleData) {
             $categoryIds = $articleData['category_ids'];
             unset($articleData['category_ids']);
+
+            // Generate slug from title
+            $articleData['slug'] = Str::slug($articleData['title']);
 
             $article = Article::create($articleData);
             
